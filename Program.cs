@@ -1,25 +1,27 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using DesafioProjetoHospedagem.Models;
 
 Console.OutputEncoding = Encoding.UTF8;
 
-// Cria os modelos de hóspedes e cadastra na lista de hóspedes
-List<Pessoa> hospedes = new List<Pessoa>();
+List<Pessoa> hospedes = [];
 
-Pessoa p1 = new Pessoa(nome: "Hóspede 1");
-Pessoa p2 = new Pessoa(nome: "Hóspede 2");
+Suite suite = new(tipoSuite: "Premium", capacidade: 2, valorDiaria: 30);
 
-hospedes.Add(p1);
-hospedes.Add(p2);
+Pessoa pessoa1 = new(nome: "Anita", sobrenome: "Cabral Ventura");
+Pessoa pessoa2 = new(nome: "Murilo", sobrenome: "Hamamura");
 
-// Cria a suíte
-Suite suite = new Suite(tipoSuite: "Premium", capacidade: 2, valorDiaria: 30);
+hospedes.Add(pessoa1);
+hospedes.Add(pessoa2);
 
-// Cria uma nova reserva, passando a suíte e os hóspedes
-Reserva reserva = new Reserva(diasReservados: 5);
+Reserva reserva = new(diasReservados: 12);
 reserva.CadastrarSuite(suite);
 reserva.CadastrarHospedes(hospedes);
 
-// Exibe a quantidade de hóspedes e o valor da diária
-Console.WriteLine($"Hóspedes: {reserva.ObterQuantidadeHospedes()}");
-Console.WriteLine($"Valor diária: {reserva.CalcularValorDiaria()}");
+Console.WriteLine(
+    $"Hóspedes: {reserva.ObterQuantidadeHospedes()} ({pessoa1.NomeCompleto}, {pessoa2.NomeCompleto})"
+);
+Console.WriteLine($"Estadia: Suíte {suite.TipoSuite}/{reserva.DiasReservados} dias");
+Console.WriteLine(
+    $"Valor da diária: {reserva.CalcularValorDiaria().ToString("C", new CultureInfo("pt-BR"))}"
+);
